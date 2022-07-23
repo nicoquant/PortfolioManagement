@@ -106,43 +106,43 @@ class Backtest(OptimalPortfolio):
 
         return best_parameter, result_calibration
 
+if __name__ == "__main__":
+    opt = OptimalPortfolio(
+        target_return=0.05,
+        target_risk=0.05,
+        rf=0.0,
+        start_time=10,
+        tsla=tsla,
+        gold=gold,
+        sg=sg,
+        google=google,
+    )
 
-opt = OptimalPortfolio(
-    target_return=0.05,
-    target_risk=0.05,
-    rf=0.0,
-    start_time=10,
-    tsla=tsla,
-    gold=gold,
-    sg=sg,
-    google=google,
-)
+    stocks = opt.stocks
+    ret = opt.return_matrix
+    var_cov = opt.variance_covariance_matrix()
+    mv, target = opt.min_risk_mean_variance()
+    weights, exp_ret = opt.efficient_ptf()
+    weights_t, sharpe = opt.tangancy_ptf()
+    old_ptf = stocks.T @ weights.reshape(len(weights), 1)
 
-stocks = opt.stocks
-ret = opt.return_matrix
-var_cov = opt.variance_covariance_matrix()
-mv, target = opt.min_risk_mean_variance()
-weights, exp_ret = opt.efficient_ptf()
-weights_t, sharpe = opt.tangancy_ptf()
-old_ptf = stocks.T @ weights.reshape(len(weights), 1)
+    back = Backtest(
+        5,
+        stocks,
+        weights,
+        "mv",
+        target_return=0.05,
+        target_risk=0.05,
+        rf=0.0,
+        tsla=tsla,
+        gold=gold,
+        sg=sg,
+        google=google,
+    )
+    new_ptf, new_w = back.reblance_ptf()
 
-back = Backtest(
-    5,
-    stocks,
-    weights,
-    "mv",
-    target_return=0.05,
-    target_risk=0.05,
-    rf=0.0,
-    tsla=tsla,
-    gold=gold,
-    sg=sg,
-    google=google,
-)
-new_ptf, new_w = back.reblance_ptf()
+    profit_loss = math.prod(back.tracking_profit(calibration_of_var_cov="dynamic"))
 
-profit_loss = math.prod(back.tracking_profit(calibration_of_var_cov="dynamic"))
+    # param, param_list = back.calibration(upper_bound=20, calibration_of_var_cov='dynamic')
 
-# param, param_list = back.calibration(upper_bound=20, calibration_of_var_cov='dynamic')
-
-# profit_loss_calibrated = math.prod(back.tracking_profit(calibration_of_var_cov='dynamic', rebal_opt=param))
+    # profit_loss_calibrated = math.prod(back.tracking_profit(calibration_of_var_cov='dynamic', rebal_opt=param))
