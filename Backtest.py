@@ -5,11 +5,6 @@ from scipy.optimize import minimize
 import math
 from PortfolioOpt import OptimalPortfolio
 
-tsla = yf.Ticker("TSLA").history(period="2y").Close.to_numpy()[0:350]
-gold = yf.Ticker("GC=F").history(period="2y").Close.to_numpy()[0:350]
-sg = yf.Ticker("GLE.PA").history(period="2y").Close.to_numpy()[0:350]
-google = yf.Ticker("GOOG").history(period="2y").Close.to_numpy()[0:350]
-
 
 class Backtest(OptimalPortfolio):
     def __init__(
@@ -107,6 +102,12 @@ class Backtest(OptimalPortfolio):
         return best_parameter, result_calibration
 
 if __name__ == "__main__":
+    
+    tsla = yf.Ticker("TSLA").history(period="2y").Close.to_numpy()[0:350]
+    gold = yf.Ticker("GC=F").history(period="2y").Close.to_numpy()[0:350]
+    sg = yf.Ticker("GLE.PA").history(period="2y").Close.to_numpy()[0:350]
+    google = yf.Ticker("GOOG").history(period="2y").Close.to_numpy()[0:350]
+
     opt = OptimalPortfolio(
         target_return=0.05,
         target_risk=0.05,
