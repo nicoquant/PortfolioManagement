@@ -1,4 +1,4 @@
-This repository will store some projects regarding portfolio management and backtests.
+This repository will store some projects related to portfolio management.
 
 # PortfolioOpt.py
 
