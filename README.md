@@ -2,7 +2,7 @@ This repository will store some projects regarding portfolio management and back
 
 # PortfolioOpt.py
 
-One can find the implementation of the mean variance, tangency and efficient portfolio
+One can find the implementation of the mean variance, tangency and efficient portfolio.
 
 # Backtest.py
 
